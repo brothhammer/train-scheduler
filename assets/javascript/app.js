@@ -42,6 +42,10 @@ var config = {
     // console.log(newTrain.frequency);
 
     //CLEAR ALL INPUTS
+    $("#train-name-input").val("");
+    $("#destination-input").val("");
+    $("#start-input").val("");
+    $("#frequency-input").val("");
 
   });
 
@@ -85,6 +89,10 @@ var config = {
     var nextTrainMinutes = moment().add(minutesAway, "minutes");
     var nextTrainArrival = moment(nextTrainMinutes).format("HH:mm");
     console.log("NEXT TRAIN ARRIVAL TIME" + nextTrainArrival);
+
+    // Add each train's data into the table
+    $("#employee-table > tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" +
+    trainFrequency + "</td><td>" + nextTrainArrival + "</td><td>" + minutesAway + "</td></tr>");
   });
 
 
