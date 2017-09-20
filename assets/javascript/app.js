@@ -79,16 +79,23 @@ var config = {
 
     //remainder
     var timeRemainder = diffTime % trainFrequency;
-    console.log(timeRemainder);
+    console.log("REMAINDER: "+timeRemainder);
 
     //frequency minus remainder to give minutes till next train
     var minutesAway = trainFrequency - timeRemainder;
-    console.log(minutesAway);
+    console.log("MINUTES AWAY: " + minutesAway);
+
+
+    if(timeRemainder<0){
+      var nextTrainMinutes = moment(trainStartConverted).diff(moment(), "minutes");
+      var nextTrainArrival = trainStart;
+    }else{
 
     //Next train arrival time
-    var nextTrainMinutes = moment().add(minutesAway, "minutes");
-    var nextTrainArrival = moment(nextTrainMinutes).format("HH:mm");
-    console.log("NEXT TRAIN ARRIVAL TIME" + nextTrainArrival);
+      var nextTrainMinutes = moment().add(minutesAway, "minutes");
+      var nextTrainArrival = moment(nextTrainMinutes).format("HH:mm");
+      console.log("NEXT TRAIN ARRIVAL TIME" + nextTrainArrival);
+    }
 
     // Add each train's data into the table
     $("#employee-table > tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" +
