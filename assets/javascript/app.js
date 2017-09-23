@@ -52,32 +52,32 @@ var config = {
   //Add train to database and add a row in the html
   database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
-    console.log(childSnapshot.val());
+    // console.log(childSnapshot.val());
 
     var trainName = childSnapshot.val().name;
     var destination = childSnapshot.val().destination;
     var trainStart = childSnapshot.val().start;
     var trainFrequency = childSnapshot.val().frequency;
 
-    console.log(trainName);
-    console.log(destination);
-    console.log(trainStart);
-    console.log(trainFrequency);
+    // console.log(trainName);
+    // console.log(destination);
+    // console.log(trainStart);
+    // console.log(trainFrequency);
 
     //Train start time coming back from database
     var trainStartConverted = moment(trainStart, "HH:mm");
     console.log("TRAIN START:" + trainStartConverted);
 
-     // Current Time
+     // Find the current Time
     var currentTime = moment();
     console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"))
     console.log("CURRENT TIME IN CODE: "+ currentTime.format("X"));
 
-    //difference b/w time
+    //difference b/w train start time and the current time from above
     var diffTime = moment().diff(moment(trainStartConverted), "minutes");
     console.log("DIFFERENCE IN TIME: " + diffTime);
 
-    //remainder
+    //find the remainder or "time left" before the next train
     var timeRemainder = diffTime % trainFrequency;
     console.log("REMAINDER: "+timeRemainder);
 
@@ -85,19 +85,19 @@ var config = {
     var minutesAway = trainFrequency - timeRemainder;
     console.log("MINUTES AWAY: " + minutesAway);
 
-
+    //if the remainder is less than 0 then the first train has not come yet
     if(timeRemainder<0){
       var nextTrainMinutes = moment(trainStartConverted).diff(moment(), "minutes");
       var nextTrainArrival = trainStart;
     }else{
 
-    //Next train arrival time
+    //Find the time the next train will arrive
       var nextTrainMinutes = moment().add(minutesAway, "minutes");
       var nextTrainArrival = moment(nextTrainMinutes).format("HH:mm");
       console.log("NEXT TRAIN ARRIVAL TIME" + nextTrainArrival);
     }
 
-    // Add each train's data into the table
+    // Add information on trains to the table at the top of the page
     $("#employee-table > tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" +
     trainFrequency + "</td><td>" + nextTrainArrival + "</td><td>" + minutesAway + "</td></tr>");
   });
